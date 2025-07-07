@@ -34,13 +34,7 @@ interface HomePageProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>; // Add setSearchTerm prop
 }
 
-const HomePage: React.FC<HomePageProps> = ({
-  cart,
-  setCart,
-  addToCart, // Destructure addToCart
-  searchTerm, // Destructure searchTerm
-  setSearchTerm, // Destructure setSearchTerm
-}) => {
+const HomePage: React.FC<HomePageProps> = ({ addToCart, searchTerm }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -5,6 +5,8 @@ interface CartProps {
   cart: CartItem[];
   onUpdateQuantity: (productId: number, quantity: number) => void;
   onRemoveItem: (productId: number) => void;
+  onContinueShopping: () => void;
+  onProceedToCheckout: () => void;
 }
 
 const Cart: React.FC<CartProps> = ({

@@ -6,6 +6,8 @@ interface CheckoutProps {
   cart: CartItem[];
   onPaymentSuccess: () => void;
   onPaymentFailure: () => void;
+  onBackToCart: () => void;
+  onGoToHome: () => void;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({
