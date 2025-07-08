@@ -78,15 +78,17 @@ const HomePage: React.FC<HomePageProps> = ({ addToCart, searchTerm }) => {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection primaryColor="blue" />
       <ProductGrid
         products={filteredProducts} // Use filteredProducts
         loading={loading}
         error={error}
         searchTerm={searchTerm}
-        onAddToCart={addToCart} // Pass addToCart
+        onAddToCart={addToCart}
+        theme="light"
+        primaryColor="blue"
       />
-      <HealthAssistant />
+      <HealthAssistant theme="light" primaryColor="blue" />
     </>
   );
 };

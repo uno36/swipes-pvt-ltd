@@ -7,7 +7,7 @@ const AboutUs: React.FC = () => {
       <div className="prose max-w-none text-gray-700">
         <p className="mb-4">
           Welcome to <strong>Swipes Pvt Ltd</strong>, your dedicated partner in
-          health, wellness, and beauty. Inspired by the trusted legacy of
+          health, wellness, and beauty. Inspired by the trusted legacy of{" "}
           <strong>Swipes Pvt Ltd</strong>, we strive to offer a comprehensive
           range of products and services designed to meet your everyday needs
           with convenience and care.

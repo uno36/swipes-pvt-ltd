@@ -1,10 +1,31 @@
 import { useState } from "react";
+import type { PrimaryColor, Theme } from "../types";
 
-const HealthAssistant: React.FC = () => {
+interface HealthAssistantProps {
+  theme: Theme;
+  primaryColor: PrimaryColor;
+}
+
+const HealthAssistant: React.FC<HealthAssistantProps> = ({
+  theme,
+  primaryColor,
+}) => {
   const [healthQuery, setHealthQuery] = useState<string>("");
   const [healthResponse, setHealthResponse] = useState<string>("");
   const [isHealthGenerating, setIsHealthGenerating] = useState<boolean>(false);
   const [healthError, setHealthError] = useState<string | null>(null);
+
+  const primaryButtonBg =
+    primaryColor === "blue" ? "bg-blue-600" : "bg-olive-600";
+  const primaryButtonHoverBg =
+    primaryColor === "blue" ? "hover:bg-blue-700" : "hover:bg-olive-700";
+  const primaryFocusRingClass =
+    primaryColor === "blue" ? "focus:ring-blue-500" : "focus:ring-olive-500";
+  const responseBg = primaryColor === "blue" ? "bg-blue-50" : "bg-olive-50";
+  const responseBorder =
+    primaryColor === "blue" ? "border-blue-200" : "border-olive-200";
+  const responseTitleColor =
+    primaryColor === "blue" ? "text-blue-800" : "text-olive-800";
 
   const handleGenerateHealthAdvice = async () => {
     if (!healthQuery.trim()) {
@@ -56,13 +77,23 @@ const HealthAssistant: React.FC = () => {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-lg p-8 mb-12">
-      <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+    <section
+      className={`dark:bg-gray-700 rounded-xl shadow-lg p-8 mb-12 ${
+        theme === "dark" ? "dark-mode-card" : "bg-white"
+      }`}
+    >
+      <h3
+        className={`dark:text-white text-3xl font-bold mb-6 text-center ${
+          theme === "dark" ? "dark-mode-text" : "text-gray-900"
+        }`}
+      >
         Ask Our AI Health Assistant ✨
       </h3>
       <div className="max-w-2xl mx-auto">
         <textarea
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 resize-y min-h-[100px]"
+          className={`w-full p-4 border border-gray-300 rounded-lg focus:outline-none ${primaryFocusRingClass} mb-4 resize-y min-h-[100px] ${
+            theme === "dark" ? "dark-mode-input" : ""
+          }`}
           placeholder="e.g., What are the benefits of Vitamin C? How can I improve my sleep?"
           value={healthQuery}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -72,7 +103,7 @@ const HealthAssistant: React.FC = () => {
         <button
           onClick={handleGenerateHealthAdvice}
           disabled={isHealthGenerating}
-          className="w-full bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`w-full ${primaryButtonBg} text-white font-semibold py-3 px-8 rounded-lg shadow-md ${primaryButtonHoverBg} transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {isHealthGenerating ? "Getting Advice..." : "Get Advice ✨"}
         </button>
@@ -84,11 +115,17 @@ const HealthAssistant: React.FC = () => {
         )}
 
         {healthResponse && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h4 className="font-semibold text-blue-800 mb-2">
+          <div
+            className={`mt-6 p-4 ${responseBg} rounded-lg ${responseBorder}`}
+          >
+            <h4 className={`font-semibold ${responseTitleColor} mb-2`}>
               AI Assistant's Response:
             </h4>
-            <p className="text-gray-700 whitespace-pre-wrap">
+            <p
+              className={`whitespace-pre-wrap ${
+                theme === "dark" ? "dark-mode-text" : "text-gray-700"
+              }`}
+            >
               {healthResponse}
             </p>
             <p className="text-xs text-gray-500 mt-3">
