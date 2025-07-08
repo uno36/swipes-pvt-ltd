@@ -1,5 +1,6 @@
-import type { CartItem } from "../types";
+import type { CartItem, Theme, PrimaryColor } from "../types";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 interface CartProps {
   cart: CartItem[];
@@ -7,14 +8,25 @@ interface CartProps {
   onRemoveItem: (productId: number) => void;
   onContinueShopping: () => void;
   onProceedToCheckout: () => void;
+  theme: Theme;
+  primaryColor: PrimaryColor;
 }
 
 const Cart: React.FC<CartProps> = ({
   cart,
   onUpdateQuantity,
   onRemoveItem,
+  theme,
+  primaryColor,
 }) => {
   const navigate = useNavigate();
+
+  const primaryButtonBg =
+    primaryColor === "blue" ? "bg-blue-600" : "bg-olive-600";
+  const primaryButtonHoverBg =
+    primaryColor === "blue" ? "hover:bg-blue-700" : "hover:bg-olive-700";
+  const primaryPriceColor =
+    primaryColor === "blue" ? "text-blue-700" : "text-olive-700";
 
   const calculateTotal = () => {
     return cart
@@ -35,28 +47,44 @@ const Cart: React.FC<CartProps> = ({
   };
 
   return (
-    <div className="container mx-auto px-6 py-8 md:px-8 lg:px-12">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+    <div className=" container mx-auto px-6 py-8 md:px-8 lg:px-12">
+      <h2
+        className={`dark:text-white text-3xl font-bold mb-8 text-center ${
+          theme === "dark" ? "dark-mode-text" : "text-gray-900"
+        }`}
+      >
         Your Shopping Cart
       </h2>
 
       {cart.length === 0 ? (
-        <div className="text-center text-gray-600 text-lg p-8 bg-white rounded-xl shadow-md">
+        <div
+          className={`dark:bg-gray-700 bg-gray-300 text-center text-lg p-8 rounded-xl shadow-md ${
+            theme === "dark"
+              ? "dark-mode-card dark-mode-text"
+              : "bg-white text-gray-600"
+          }`}
+        >
           Your cart is empty.
           <button
             onClick={handleContinueShopping}
-            className="mt-6 bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+            className={`mt-6 ml-6 ${primaryButtonBg} text-white font-semibold py-3 px-8 rounded-lg shadow-md ${primaryButtonHoverBg} transition duration-300 ease-in-out`}
           >
             Continue Shopping
           </button>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div
+          className={`dark:bg-gray-700 rounded-xl shadow-lg p-6 ${
+            theme === "dark" ? "dark-mode-card" : "bg-white"
+          }`}
+        >
           <div className="space-y-4">
             {cart.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between border-b border-gray-200 pb-4 last:border-b-0 last:pb-0"
+                className={`flex items-center justify-between border-b pb-4 last:border-b-0 last:pb-0 ${
+                  theme === "dark" ? "dark-mode-border" : "border-gray-200"
+                }`}
               >
                 <div className="flex items-center gap-4">
                   <img
@@ -65,31 +93,53 @@ const Cart: React.FC<CartProps> = ({
                     className="w-20 h-20 object-cover rounded-md"
                   />
                   <div>
-                    <h4 className="font-semibold text-lg text-gray-900">
+                    <h4
+                      className={`dark:text-white font-semibold text-lg ${
+                        theme === "dark" ? "dark-mode-text" : "text-gray-900"
+                      }`}
+                    >
                       {item.name}
                     </h4>
-                    <p className="text-blue-700 font-bold">{item.price}</p>
+                    <p
+                      className={`${primaryPriceColor} dark:text-white font-bold`}
+                    >
+                      {item.price}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-gray-300 rounded-md">
+                  <div
+                    className={`flex items-center border rounded-md ${
+                      theme === "dark" ? "dark-mode-border" : "border-gray-300"
+                    }`}
+                  >
                     <button
                       onClick={() =>
                         onUpdateQuantity(item.id, item.quantity - 1)
                       }
                       disabled={item.quantity <= 1}
-                      className="px-3 py-1 text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                      className={`dark:text-white px-3 py-1 ${
+                        theme === "dark"
+                          ? "dark-mode-text hover:bg-gray-700"
+                          : "text-gray-700 hover:bg-gray-100"
+                      } disabled:opacity-50`}
                     >
                       -
                     </button>
-                    <span className="px-3 py-1 border-x border-gray-300">
+                    <span
+                      className={`dark:text-white px-3 py-1 border-x ${
+                        theme === "dark"
+                          ? "dark-mode-border dark-mode-text"
+                          : "border-gray-300"
+                      }`}
+                    >
                       {item.quantity}
                     </span>
                     <button
                       onClick={() =>
                         onUpdateQuantity(item.id, item.quantity + 1)
                       }
-                      className="px-3 py-1 text-gray-700 hover:bg-gray-100"
+                      className="dark:text-white px-3 py-1 text-gray-700 hover:bg-gray-100"
                     >
                       +
                     </button>
@@ -119,7 +169,7 @@ const Cart: React.FC<CartProps> = ({
           </div>
 
           <div className="flex justify-end items-center mt-8 pt-4 border-t border-gray-200">
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="dark:text-white text-2xl font-bold text-gray-900">
               Total: R{calculateTotal()}
             </p>
           </div>

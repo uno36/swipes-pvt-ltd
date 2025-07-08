@@ -1,15 +1,33 @@
 import { useState } from "react";
-import type { Product } from "../types";
+import type { Product, Theme, PrimaryColor } from "../types";
 
 interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  theme: Theme;
+  primaryColor: PrimaryColor;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onAddToCart,
+  theme,
+  primaryColor,
+}) => {
   const [generatedDescription, setGeneratedDescription] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [descError, setDescError] = useState<string | null>(null);
+
+  const primaryPriceColor =
+    primaryColor === "blue" ? "text-blue-700" : "text-olive-700";
+  const primaryButtonBg =
+    primaryColor === "blue" ? "bg-blue-600" : "bg-olive-600";
+  const primaryButtonHoverBg =
+    primaryColor === "blue" ? "hover:bg-blue-700" : "hover:bg-olive-700";
+  const aiDescBg = primaryColor === "blue" ? "bg-blue-50" : "bg-olive-50";
+  const aiDescBorder =
+    primaryColor === "blue" ? "border-blue-200" : "border-olive-200";
+  // const aiDescTitleColor = primaryColor === "blue" ? "text-blue-800" : "text-olive-800";
 
   const handleGenerateDescription = async () => {
     setIsGenerating(true);
@@ -55,8 +73,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
-      <div className="w-full h-60 bg-white flex items-center justify-center">
+    <div
+      className={`rounded-xl shadow-md overflow-hidden transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+        theme === "dark" ? "dark-mode-card" : "bg-white"
+      }`}
+    >
+      <div className="w-full h-60 bg-white text-black dark:bg-gray-900 dark:text-white flex items-center justify-center">
         <img
           src={product.imageUrl}
           alt={product.name}
@@ -68,21 +90,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           }}
         />
       </div>
-      <div className="p-4">
-        <h4 className="text-lg font-semibold text-gray-900 mb-2 truncate">
+      <div className="p-4  bg-white text-black dark:bg-gray-900 dark:text-white">
+        <h4
+          className={`text-lg font-semibold mb-2 truncate dark:text-white ${
+            theme === "dark" ? "dark-mode-text" : "text-gray-900"
+          }`}
+        >
           {product.name}
         </h4>
-        <p className="text-blue-700 font-bold text-xl mb-3">{product.price}</p>
+        <p className={`${primaryPriceColor} font-bold text-xl mb-3`}>
+          {product.price}
+        </p>
         <button
           onClick={() => onAddToCart(product)}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out mb-2"
+          className={`w-full ${primaryButtonBg} text-white py-2 px-4 rounded-lg ${primaryButtonHoverBg} transition duration-200 ease-in-out mb-2`}
         >
           Add to Cart
         </button>
         <button
           onClick={handleGenerateDescription}
           disabled={isGenerating}
-          className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className={`w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-sm ${
+            theme === "dark" ? "dark-mode-secondary-btn" : ""
+          }`}
         >
           {isGenerating ? "Generating..." : "Generate Description ✨"}
         </button>
@@ -92,8 +122,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         )}
 
         {generatedDescription && (
-          <div className="mt-3 p-2 bg-gray-50 rounded-md text-sm text-gray-700 border border-gray-200">
-            <p className="font-medium text-gray-900 mb-1">
+          <div
+            className={`mt-3 p-2 ${aiDescBg} rounded-md text-sm ${
+              theme === "dark" ? "dark-mode-text" : "text-gray-700"
+            } ${aiDescBorder}`}
+          >
+            <p
+              className={`font-medium ${
+                theme === "dark" ? "dark-mode-text" : "text-gray-900"
+              } mb-1`}
+            >
               AI-Generated Description:
             </p>
             <p>{generatedDescription}</p>

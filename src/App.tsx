@@ -1,5 +1,5 @@
 // src/App.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Cart from "./components/Cart";
@@ -10,12 +10,49 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import HeaderWithSearchWrapper from "./components/Header";
 import Footer from "./components/Footer";
-import type { CartItem, Product } from "./types";
+import ScrollToTop from "./components/ScrollToTop";
+import type { CartItem, Product, Theme, PrimaryColor } from "./types";
 
 function App() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+
+  // Theme and color state
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem("swipes-theme");
+    return savedTheme === "light" || savedTheme === "dark"
+      ? savedTheme
+      : "light";
+  });
+
+  const [primaryColor, setPrimaryColor] = useState<PrimaryColor>(() => {
+    const savedColor = localStorage.getItem("swipes-primary-color");
+    return savedColor === "blue" || savedColor === "olive"
+      ? savedColor
+      : "blue";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("swipes-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("swipes-primary-color", primaryColor);
+  }, [primaryColor]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -47,13 +84,18 @@ function App() {
   const handlePaymentSuccess = () => setCart([]);
 
   return (
-    <>
+    <div className="bg-white text-black dark:bg-gray-900 dark:text-white">
+      <ScrollToTop />
       {/* Header and Footer are outside Routes to be persistent */}
       <HeaderWithSearchWrapper
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         cartItemCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
         onGoToCart={() => navigate("/cart")}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        primaryColor={primaryColor}
+        setPrimaryColor={setPrimaryColor}
       />
 
       <Routes>
@@ -78,6 +120,8 @@ function App() {
               onRemoveItem={removeItem}
               onContinueShopping={() => navigate("/")}
               onProceedToCheckout={() => navigate("/checkout")}
+              theme={theme}
+              primaryColor={primaryColor}
             />
           }
         />
@@ -90,6 +134,8 @@ function App() {
               onPaymentFailure={() => {}}
               onBackToCart={() => navigate("/cart")}
               onGoToHome={() => navigate("/")}
+              theme={theme}
+              primaryColor={primaryColor}
             />
           }
         />
@@ -100,7 +146,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

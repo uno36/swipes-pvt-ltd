@@ -17,3 +17,7 @@ export type Page =
   | "contact"
   | "privacy"
   | "terms";
+
+export type Theme = 'light' | 'dark';
+
+export type PrimaryColor = 'blue' | 'olive';
