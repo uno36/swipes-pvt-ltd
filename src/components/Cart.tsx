@@ -47,7 +47,7 @@ const Cart: React.FC<CartProps> = ({
   };
 
   return (
-    <div className=" container mx-auto px-6 py-8 md:px-8 lg:px-12">
+    <div className="container mx-auto px-6 py-8 md:px-8 lg:px-12">
       <h2
         className={`dark:text-white text-3xl font-bold mb-8 text-center ${
           theme === "dark" ? "dark-mode-text" : "text-gray-900"
@@ -67,7 +67,7 @@ const Cart: React.FC<CartProps> = ({
           Your cart is empty.
           <button
             onClick={handleContinueShopping}
-            className={`mt-6 ml-6 ${primaryButtonBg} text-white font-semibold py-3 px-8 rounded-lg shadow-md ${primaryButtonHoverBg} transition duration-300 ease-in-out`}
+            className={`mt-6 w-full sm:w-auto ${primaryButtonBg} text-white font-semibold py-3 px-8 rounded-lg shadow-md ${primaryButtonHoverBg} transition duration-300 ease-in-out`}
           >
             Continue Shopping
           </button>
@@ -82,11 +82,12 @@ const Cart: React.FC<CartProps> = ({
             {cart.map((item) => (
               <div
                 key={item.id}
-                className={`flex items-center justify-between border-b pb-4 last:border-b-0 last:pb-0 ${
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4 last:border-b-0 last:pb-0 ${
                   theme === "dark" ? "dark-mode-border" : "border-gray-200"
                 }`}
               >
-                <div className="flex items-center gap-4">
+                {/* Product Image and Info */}
+                <div className="flex items-start gap-4 w-full sm:w-auto">
                   <img
                     src={item.imageUrl}
                     alt={item.name}
@@ -107,7 +108,9 @@ const Cart: React.FC<CartProps> = ({
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+
+                {/* Quantity & Remove Buttons */}
+                <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                   <div
                     className={`flex items-center border rounded-md ${
                       theme === "dark" ? "dark-mode-border" : "border-gray-300"
@@ -168,11 +171,14 @@ const Cart: React.FC<CartProps> = ({
             ))}
           </div>
 
+          {/* Cart Total */}
           <div className="flex justify-end items-center mt-8 pt-4 border-t border-gray-200">
             <p className="dark:text-white text-2xl font-bold text-gray-900">
               Total: R{calculateTotal()}
             </p>
           </div>
+
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
             <button
               onClick={handleContinueShopping}
@@ -182,7 +188,7 @@ const Cart: React.FC<CartProps> = ({
             </button>
             <button
               onClick={handleProceedToCheckout}
-              className="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+              className={`${primaryButtonBg} text-white font-semibold py-3 px-8 rounded-lg shadow-md ${primaryButtonHoverBg} transition duration-300 ease-in-out`}
             >
               Proceed to Checkout
             </button>
