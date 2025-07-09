@@ -108,6 +108,10 @@ function App() {
               addToCart={addToCart}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
+              theme={theme}
+              toggleTheme={toggleTheme}
+              primaryColor={primaryColor}
+              setPrimaryColor={setPrimaryColor}
             />
           }
         />
@@ -145,7 +149,7 @@ function App() {
         <Route path="/terms" element={<TermsAndConditions />} />
       </Routes>
 
-      <Footer />
+      <Footer theme={theme} primaryColor={primaryColor} />
     </div>
   );
 }

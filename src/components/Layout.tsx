@@ -39,7 +39,7 @@ const Layout: React.FC<LayoutProps> = ({
         setPrimaryColor={() => {}}
       />
 
-      <Footer />
+      <Footer theme={theme} primaryColor={primaryColor} />
     </>
   );
 };

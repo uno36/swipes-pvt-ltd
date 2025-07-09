@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`bg-white text-black dark:bg-gray-600 dark:text-white shadow-sm py-4 px-4 md:px-8 lg:px-12 sticky top-0 z-50 ${
+      className={`bg-white text-black dark:bg-gray-600 dark:text-white ${primaryColorClass} shadow-sm py-4 px-4 md:px-8 lg:px-12 sticky top-0 z-50 ${
         theme === "dark" ? "dark-mode-header" : ""
       }`}
     >
@@ -175,9 +175,13 @@ const Header: React.FC<HeaderProps> = ({
             <input
               type="text"
               placeholder="Search for products..."
-              className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none ${primaryFocusRingClass}`}
+              className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none ${primaryFocusRingClass} 
+                bg-white text-black placeholder-gray-500 
+                dark:bg-gray-700 dark:text-white dark:placeholder-gray-300`}
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onSearchChange(e.target.value)
+              }
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -220,9 +224,13 @@ const Header: React.FC<HeaderProps> = ({
             <input
               type="text"
               placeholder="Search for products..."
-              className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none ${primaryFocusRingClass}`}
+              className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none ${primaryFocusRingClass} 
+                bg-white text-black placeholder-gray-500 
+                dark:bg-gray-700 dark:text-white dark:placeholder-gray-300`}
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onSearchChange(e.target.value)
+              }
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
