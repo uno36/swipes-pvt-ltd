@@ -15,9 +15,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ primaryColor }) => {
 
   return (
     <section
-      className={`rounded-xl shadow-lg mt-12 p-8 mb-12 text-center text-white 
-      bg-gradient-to-r ${gradientFrom} ${gradientTo} 
-      dark:bg-gray-600 dark:bg-none`}
+      className={`bg-gradient-to-r ${gradientFrom} ${gradientTo} rounded-xl shadow-lg p-8 mt-14 mb-12 text-white text-center max-w-7xl mx-auto`}
     >
       <h2 className="text-4xl font-extrabold mb-4">
         Your Satisfaction, Our Priority

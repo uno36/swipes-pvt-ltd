@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import HeroSection from "../components/HeroSection";
 import ProductGrid from "../components/ProductGrid";
 import HealthAssistant from "../components/HealthAssistant";
-import type { Product, CartItem } from "../types";
+import type { Product, CartItem, Theme, PrimaryColor } from "../types";
 
 interface DummyJSONProduct {
   id: number;
@@ -31,10 +31,19 @@ interface HomePageProps {
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   addToCart: (product: Product) => void; // Add addToCart prop
   searchTerm: string; // Add searchTerm prop
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>; // Add setSearchTerm prop
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  theme: Theme;
+  toggleTheme: () => void;
+  primaryColor: PrimaryColor;
+  setPrimaryColor: (color: PrimaryColor) => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ addToCart, searchTerm }) => {
+const HomePage: React.FC<HomePageProps> = ({
+  addToCart,
+  searchTerm,
+  theme,
+  primaryColor,
+}) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -78,17 +87,17 @@ const HomePage: React.FC<HomePageProps> = ({ addToCart, searchTerm }) => {
 
   return (
     <>
-      <HeroSection primaryColor="blue" />
+      <HeroSection primaryColor={primaryColor} />
       <ProductGrid
         products={filteredProducts} // Use filteredProducts
         loading={loading}
         error={error}
         searchTerm={searchTerm}
         onAddToCart={addToCart}
-        theme="light"
-        primaryColor="blue"
+        theme={theme}
+        primaryColor={primaryColor}
       />
-      <HealthAssistant theme="light" primaryColor="blue" />
+      <HealthAssistant theme={theme} primaryColor={primaryColor} />
     </>
   );
 };
